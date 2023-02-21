@@ -47,6 +47,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.mychat.ChatService;
 import com.example.mychat.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity {
 
 	public static final int MESSAGE_STATE_CHANGE = 1;
@@ -96,15 +99,15 @@ public class MainActivity extends AppCompatActivity {
 				break;
 			case MESSAGE_WRITE:
 				byte[] writeBuf = (byte[]) msg.obj;
-
+				String date_write = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 				String writeMessage = new String(writeBuf);
-				chatArrayAdapter.add("Me:  " + writeMessage);
+				chatArrayAdapter.add(date_write+ "|Me:  " + writeMessage);
 				break;
 			case MESSAGE_READ:
 				byte[] readBuf = (byte[]) msg.obj;
-
+				String date_read = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 				String readMessage = new String(readBuf, 0, msg.arg1);
-				chatArrayAdapter.add(connectedDeviceName + ":  " + readMessage);
+				chatArrayAdapter.add(date_read+ "|" +connectedDeviceName + ":  " + readMessage);
 				break;
 			case MESSAGE_DEVICE_NAME:
 
