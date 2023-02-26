@@ -22,11 +22,13 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
 //import android.support.v7.app.ActionBar;
 //import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -98,10 +100,14 @@ public class MainActivity extends AppCompatActivity {
 				}
 				break;
 			case MESSAGE_WRITE:
+				//long beforeTime = Calendar.getInstance().get(Calendar.MILLISECOND);
 				byte[] writeBuf = (byte[]) msg.obj;
 				String date_write = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 				String writeMessage = new String(writeBuf);
 				chatArrayAdapter.add(date_write+ "|Me:  " + writeMessage);
+				//long afterTime = Calendar.getInstance().get(Calendar.MILLISECOND);
+				//long timeDifference = afterTime - beforeTime;
+				//Toast.makeText(getApplicationContext(),"Message write time: " + timeDifference,Toast.LENGTH_LONG).show();
 				break;
 			case MESSAGE_READ:
 				byte[] readBuf = (byte[]) msg.obj;
@@ -143,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
 			return;
 		}
 	}
+
 
 	private void getWidgetReferences() {
 		lvMainChat = (ListView) findViewById(R.id.lvMainChat);

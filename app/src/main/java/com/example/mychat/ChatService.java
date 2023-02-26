@@ -19,6 +19,7 @@ package com.example.mychat;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Calendar;
 import java.util.UUID;
 
 import android.annotation.SuppressLint;
@@ -30,6 +31,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.widget.Toast;
 
 public class ChatService {
 	private static final String NAME_SECURE = "BluetoothChatSecure";
@@ -85,7 +87,7 @@ public class ChatService {
 			connectThread = null;
 		}
 
-		// Cancel any running thresd
+		// Cancel any running thread
 		if (connectedThread != null) {
 			connectedThread.cancel();
 			connectedThread = null;
