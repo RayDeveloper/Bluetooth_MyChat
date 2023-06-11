@@ -59,24 +59,20 @@ public class MainActivity extends AppCompatActivity {
 	public static final int MESSAGE_WRITE = 3;
 	public static final int MESSAGE_DEVICE_NAME = 4;
 	public static final int MESSAGE_TOAST = 5;
-
 	public static final String DEVICE_NAME = "device_name";
 	public static final String TOAST = "toast";
-
 	private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
 	private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
 	private static final int REQUEST_ENABLE_BT = 3;
-
 	private ListView lvMainChat;
 	private EditText etMain;
 	private Button btnSend;
-
 	private String connectedDeviceName = null;
 	private ArrayAdapter<String> chatArrayAdapter;
-
 	private StringBuffer outStringBuffer;
 	private BluetoothAdapter bluetoothAdapter = null;
 	private ChatService chatService = null;
+
 
 	private Handler handler = new Handler(new Callback() {
 
@@ -100,23 +96,20 @@ public class MainActivity extends AppCompatActivity {
 				}
 				break;
 			case MESSAGE_WRITE:
-				//long beforeTime = Calendar.getInstance().get(Calendar.MILLISECOND);
 				byte[] writeBuf = (byte[]) msg.obj;
 				String date_write = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 				String writeMessage = new String(writeBuf);
 				chatArrayAdapter.add(date_write+ "|Me:  " + writeMessage);
-				//long afterTime = Calendar.getInstance().get(Calendar.MILLISECOND);
-				//long timeDifference = afterTime - beforeTime;
-				//Toast.makeText(getApplicationContext(),"Message write time: " + timeDifference,Toast.LENGTH_LONG).show();
+				System.out.println(date_write+ "|Me:  " + writeMessage);
 				break;
 			case MESSAGE_READ:
 				byte[] readBuf = (byte[]) msg.obj;
 				String date_read = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 				String readMessage = new String(readBuf, 0, msg.arg1);
 				chatArrayAdapter.add(date_read+ "|" +connectedDeviceName + ":  " + readMessage);
+				System.out.println(date_read+ "|" +connectedDeviceName + ":  " + readMessage);
 				break;
 			case MESSAGE_DEVICE_NAME:
-
 				connectedDeviceName = msg.getData().getString(DEVICE_NAME);
 				Toast.makeText(getApplicationContext(),
 						"Connected to " + connectedDeviceName,
@@ -136,12 +129,9 @@ public class MainActivity extends AppCompatActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-
 		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
 		getWidgetReferences();
 		bindEventHandler();
-
 		if (bluetoothAdapter == null) {
 			Toast.makeText(this, "Bluetooth is not available",
 					Toast.LENGTH_LONG).show();
@@ -149,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
 			return;
 		}
 	}
-
 
 	private void getWidgetReferences() {
 		lvMainChat = (ListView) findViewById(R.id.lvMainChat);
@@ -243,7 +232,6 @@ public class MainActivity extends AppCompatActivity {
 					.show();
 			return;
 		}
-
 		if (message.length() > 0) {
 			byte[] send = message.getBytes();
 			chatService.write(send);
